@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `i7b0_users`;

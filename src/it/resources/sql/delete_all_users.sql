@@ -1,0 +1,1 @@
+DELETE FROM `i7b0_users`;
