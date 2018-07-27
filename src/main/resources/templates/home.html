@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <link rel="stylesheet" href="/css/lcag.css">
     <script src="/js/lcag-common.js"></script>
-    <title>Loan Charge Action Group | Membership Form</title>
+    <title>Loan Charge Action Group | Claim Participant Form</title>
 </head>
     <body>
         <nav class="navbar navbar-default">
@@ -36,12 +36,13 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p>Dear <span id="salutation">LCAG Member</span>,</p>
-                            <p>Welcome to the Loan Charge Action Group secure membership form. We need to collect a few details from you in order to process
-                                your application. Please provide the information requested below and we will get back to you as soon as we can.</p>
-                            <p>None of the details we collect will be shared with third parties and your proof of ID and scheme documentation will be
-                                deleted as soon as we have finished verifying you.</p>
-                            <p>If you have any questions please contact <a href="mailto:membership@hmrcloancharge.info">membership@hmrcloancharge.info</a></p>
-                            <p>Many thanks,<br/>LCAG Membership Team</p>
+                            <p>Welcome to the Loan Charge Action Group claim participant form. In order to include you in the forthcoming mis-selling lawsuit
+                                we need to collect some further information.</p>
+                            <p>If you have any questions please contact <a href="mailto:claim@hmrcloancharge.info">claim@hmrcloancharge.info</a></p>
+                            <p>Many thanks,<br/>LCAG Claim Team</p>
+                        </div>
+                        <div class="panel-footer clearfix">
+                            <p><strong>GDP Disclaimer</strong>: The information that you provide will be shared with Dow Schofield Watts (DSW) tax consultants and Smooth Commercial Law who are organising the lawsuit.</p>
                         </div>
                     </div>
 
@@ -49,15 +50,29 @@
                         <input type="hidden" name="token" value="" id="token" />
                         <div class="panel panel-default">
 
-                            <div class="panel-heading">Secure Membership Form<div class="pull-right"><i class="fa fa-lock" aria-hidden="true"></i></div></div>
+                            <div class="panel-heading">Claim Participant Form<div class="pull-right"><i class="fa fa-lock" aria-hidden="true"></i></div></div>
 
                             <div class="panel-body">
 
                                 <div class="form-group">
-                                    <label for="name">Name</label>
+                                    <label for="title">Title</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="name" class="form-control" id="name" placeholder="Please enter your name" required />
+                                        <input type="text" name="title" class="form-control" id="title" placeholder="Please enter your title" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
+                                        <input type="text" name="firstName" class="form-control" id="firstName" placeholder="Please enter your first name" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
+                                        <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Please enter your last name" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -68,108 +83,70 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="mpName">MP Name</label>
+                                    <label for="addressLine1">Address Line 1</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="mpName" class="form-control" id="mpName" placeholder="Please enter the name of your MP" required />
+                                        <input type="text" name="addressLine1" class="form-control" id="addressLine1" placeholder="Please enter the first line of your address" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="mpConstituency">MP constituency</label>
+                                    <label for="addressLine2">Address Line 2</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="mpConstituency" class="form-control" id="mpConstituency" placeholder="Please enter your MP constituency" required />
+                                        <input type="text" name="addressLine2" class="form-control" id="addressLine2" placeholder="Please enter the second line of your address" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="mpParty">MP party</label>
+                                    <label for="city">City</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="mpParty" class="form-control" id="mpParty" placeholder="Please enter your MP party" required />
+                                        <input type="text" name="city" class="form-control" id="city" placeholder="Please enter your city" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Have you engaged your MP?</label>
+                                    <label for="postcode">Postcode</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
+                                        <input type="text" name="postcode" class="form-control" id="postcode" placeholder="Please enter your postcode" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phoneNumber">Phone Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
+                                        <input type="text" name="phoneNumber" class="form-control" id="phoneNumber" placeholder="Please enter your phone number" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Can you supply any written evidence (emails, letters) to show this advice?</label>
                                     <div>
-                                        <label class="radio-inline"> <input type="radio" name="mpEngaged" id="mpEngagedYes" value="true" required> Yes </label>
-                                        <label class="radio-inline"> <input type="radio" name="mpEngaged" id="mpEngagedNo" value="false" required> No </label>
+                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceYes" value="true" required> Yes </label>
+                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceNo" value="false" required> No </label>
+                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceUnsure" value="unsure" required> Unsure </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Is your MP sympathetic?</label>
-                                    <div>
-                                        <label class="radio-inline"> <input type="radio" name="mpSympathetic" id="mpSympatheticYes" value="true" required> Yes </label>
-                                        <label class="radio-inline"> <input type="radio" name="mpSympathetic" id="mpSympatheticNo" value="false" required> No </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="schemes">Name of the scheme(s) you were involved with</label>
+                                    <label for="schemeDetails">Please highlight which schemes you were part of and in what financial years</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="schemes" class="form-control" id="schemes" placeholder="Please enter the name of the scheme(s) you were involved with" required />
+                                        <textarea name="schemeDetails" class="form-control" id="schemeDetails" placeholder="Please enter details of the schemes that you used" required>
+                                        </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="industry">Industry that you work / worked in</label>
+                                    <label for="schemeAndAdvisorDetails">Names and (if possible) contact details of the people or organisations who advised you use the loan scheme(s)</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="industry" class="form-control" id="industry" placeholder="Please enter the industry that you work / worked in" required />
+                                        <textarea type="text" name="schemeAndAdvisorDetails" class="form-control" id="schemeAndAdvisorDetails" placeholder="Please enter names and contact details of people or organisations who advised you use the loan scheme(s)" required>
+                                        </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="howDidYouHearAboutLcag">How did you find out about LCAG?</label>
+                                    <label for="additionalInformation">Any additional information you wish to provide</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="howDidYouHearAboutLcag" class="form-control" id="howDidYouHearAboutLcag" placeholder="Please tell us how you found out about LCAG" required />
-                                    </div>
-                                </div>
-                                <hr/>
-                                <div class="form-group">
-                                    <label>Are you a member of Big Group?</label>
-                                    <div>
-                                        <label class="radio-inline"> <input type="radio" name="memberOfBigGroup" id="memberOfBigGroupYes" value="true" required> Yes </label>
-                                        <label class="radio-inline"> <input type="radio" name="memberOfBigGroup" id="memberOfBigGroupNo" value="false" required> No </label>
-                                    </div>
-                                </div>
-                                <div id="bigGroupUsernameSection" style="display: none;">
-                                    <label for="bigGroupUsername">Big Group username</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <input type="text" name="bigGroupUsername" class="form-control" id="bigGroupUsername" placeholder="Please tell us your Big Group username" required />
-                                    </div>
-                                </div>
-                                <div id="idDocumentationSection" style="display: none;">
-                                    <p>If you are not a member of Big Group you must provide proof of ID and scheme involvement in order for us to verify your identity.</p>
-                                    <p>Proof of ID should be either a scan of your passport or driving license.</p>
-                                    <p>Proof of scheme involvement should be one of:</p>
-                                        <ul>
-                                            <li>HMRC enquiry letter</li>
-                                            <li>Discovery Assessment letter</li>
-                                            <li>APN letter</li>
-                                            <li>Scheme contract OR loan agreement with your name visible</li>
-                                        </ul>
-                                    <p>Once we have verified your identity we will delete the documents you have sent us.</p>
-                                    <br/>
-                                    <div id="inner-message" class="alert alert-info">
-                                        <div class="row">
-                                            <div class="col-md-1 col-sm-2">
-                                                <i class="fa fa-info-circle fa-3x"></i>
-                                            </div>
-                                            <div class="col-md-11 col-sm-10">
-                                                <b>Please note</b> if you have a slow internet connection and you are uploading large documents, submitting this form may take a few minutes.
-                                                Please do not refresh or navigate away from the page as we may not receive your documents.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br/>
-
-                                    <div class="form-group">
-                                        <label for="identification">Proof of ID (passport or driving license)</label>
-                                        <input type="file" name="identification" class="form-control" id="identification" required />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="identification">Proof of HMRC enquiry or involvement in a scheme</label>
-                                        <input type="file" name="proofOfSchemeInvolvement" class="form-control" id="proofOfSchemeInvolvement" required />
+                                        <textarea name="additionalInformation" class="form-control" id="additionalInformation" placeholder="Any additional information">
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
