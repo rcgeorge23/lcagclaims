@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `i7b0_claim_participants` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `title` varchar(120) NOT NULL,
+  `first_name` varchar(120) NOT NULL,
+  `last_name` varchar(120) NOT NULL,
+  `email_address` varchar(120) NOT NULL,
+  `address_line_1` varchar(120) NOT NULL,
+  `address_line_2` varchar(120),
+  `city` varchar(120) NOT NULL,
+  `postcode` varchar(120) NOT NULL,
+  `country` varchar(120) NOT NULL,
+  `phone_number` varchar(120) NOT NULL,
+  `can_supply_written_evidence` varchar(10) NOT NULL,
+  `scheme_details` text NOT NULL,
+  `names_and_contact_details_of_scheme_advisors` text NOT NULL,
+  `any_other_information` text,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (user_id) REFERENCES i7b0_users(uid)
+) ENGINE=MyISAM AUTO_INCREMENT=194 DEFAULT CHARSET=utf8;

@@ -57,11 +57,12 @@ public class TestUtils {
             try {
                 runSqlScript("sql/drop_user_table.sql");
                 runSqlScript("sql/create_user_table.sql");
+                runSqlScript("sql/create_claim_table.sql");
                 runSqlScript("sql/create_usergroups_table.sql");
                 runSqlScript("sql/populate_usergroups_table.sql");
 
                 for (int i = 1; i <= 200; i++) {
-                    insertUser(i, "testuser" + i, "user" + i + "@something.com", "Test Name" + i, 8, "1234_" + i);
+                    insertUser(i, "testuser" + i, "user" + i + "@something.com", "Test Name" + i, 8, "1234_" + i, "claim_" + i);
                 }
 
                 needToRetry = false;
@@ -86,8 +87,8 @@ public class TestUtils {
         new Mailer(SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD, TransportStrategy.SMTP_PLAIN).sendMail(email);
     }
 
-    static void insertUser(int id, String username, String emailAddress, String name, int group, String token) {
-        runSqlUpdate("INSERT INTO `i7b0_users` (`uid`, `username`, `password`, `salt`, `loginkey`, `email`, `postnum`, `threadnum`, `avatar`, `avatardimensions`, `avatartype`, `usergroup`, `additionalgroups`, `displaygroup`, `usertitle`, `regdate`, `lastactive`, `lastvisit`, `lastpost`, `website`, `icq`, `aim`, `yahoo`, `skype`, `google`, `birthday`, `birthdayprivacy`, `signature`, `allownotices`, `hideemail`, `subscriptionmethod`, `invisible`, `receivepms`, `receivefrombuddy`, `pmnotice`, `pmnotify`, `buddyrequestspm`, `buddyrequestsauto`, `threadmode`, `showimages`, `showvideos`, `showsigs`, `showavatars`, `showquickreply`, `showredirect`, `ppp`, `tpp`, `daysprune`, `dateformat`, `timeformat`, `timezone`, `dst`, `dstcorrection`, `buddylist`, `ignorelist`, `style`, `away`, `awaydate`, `returndate`, `awayreason`, `pmfolders`, `notepad`, `referrer`, `referrals`, `reputation`, `regip`, `lastip`, `language`, `timeonline`, `showcodebuttons`, `totalpms`, `unreadpms`, `warningpoints`, `moderateposts`, `moderationtime`, `suspendposting`, `suspensiontime`, `suspendsignature`, `suspendsigtime`, `coppauser`, `classicpostbit`, `loginattempts`, `usernotes`, `sourceeditor`, `name`, `token`) VALUES (" + id + ", '" + username + "', '63e5314b6c31334d75ac74e4ed7fdc69', 'bSS1l899', 'lvhLksjhHGcZIWgtlwNTJNr3bjxzCE2qgZNX6SBTBPbuSLx21u', '" + emailAddress + "', 0, 0, '', '', '', " + group + ", '', 0, '', " + unixTime() + ", 0, 0, 0, '', '0', '', '', '', '', '', 'all', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 'linear', 1, 1, 1, 1, 1, 1, 0, 0, 0, '', '', '', 0, 0, '', '', 0, 0, 0, '0', '', '', '', 0, 0, 0, '', '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '', 0, '" + name + "', '" + token + "');");
+    static void insertUser(int id, String username, String emailAddress, String name, int group, String token, String claimToken) {
+        runSqlUpdate("INSERT INTO `i7b0_users` (`uid`, `username`, `password`, `salt`, `loginkey`, `email`, `postnum`, `threadnum`, `avatar`, `avatardimensions`, `avatartype`, `usergroup`, `additionalgroups`, `displaygroup`, `usertitle`, `regdate`, `lastactive`, `lastvisit`, `lastpost`, `website`, `icq`, `aim`, `yahoo`, `skype`, `google`, `birthday`, `birthdayprivacy`, `signature`, `allownotices`, `hideemail`, `subscriptionmethod`, `invisible`, `receivepms`, `receivefrombuddy`, `pmnotice`, `pmnotify`, `buddyrequestspm`, `buddyrequestsauto`, `threadmode`, `showimages`, `showvideos`, `showsigs`, `showavatars`, `showquickreply`, `showredirect`, `ppp`, `tpp`, `daysprune`, `dateformat`, `timeformat`, `timezone`, `dst`, `dstcorrection`, `buddylist`, `ignorelist`, `style`, `away`, `awaydate`, `returndate`, `awayreason`, `pmfolders`, `notepad`, `referrer`, `referrals`, `reputation`, `regip`, `lastip`, `language`, `timeonline`, `showcodebuttons`, `totalpms`, `unreadpms`, `warningpoints`, `moderateposts`, `moderationtime`, `suspendposting`, `suspensiontime`, `suspendsignature`, `suspendsigtime`, `coppauser`, `classicpostbit`, `loginattempts`, `usernotes`, `sourceeditor`, `name`, `token`, `claim_token`) VALUES (" + id + ", '" + username + "', '63e5314b6c31334d75ac74e4ed7fdc69', 'bSS1l899', 'lvhLksjhHGcZIWgtlwNTJNr3bjxzCE2qgZNX6SBTBPbuSLx21u', '" + emailAddress + "', 0, 0, '', '', '', " + group + ", '', 0, '', " + unixTime() + ", 0, 0, 0, '', '0', '', '', '', '', '', 'all', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 'linear', 1, 1, 1, 1, 1, 1, 0, 0, 0, '', '', '', 0, 0, '', '', 0, 0, 0, '0', '', '', '', 0, 0, 0, '', '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '', 0, '" + name + "', '" + token + "', '" + claimToken + "');");
     }
 
     private static long unixTime() {

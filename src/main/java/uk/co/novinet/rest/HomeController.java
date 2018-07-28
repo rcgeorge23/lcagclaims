@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import uk.co.novinet.service.Claim;
 import uk.co.novinet.service.MailSenderService;
 import uk.co.novinet.service.Member;
 import uk.co.novinet.service.MemberService;
@@ -28,7 +28,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String get(@RequestParam(value = "token", required = false) String token) {
-        Member member = memberService.findMemberByToken(token);
+        Member member = memberService.findMemberByClaimToken(token);
 
         if (member == null) {
             return "notFound";
@@ -44,27 +44,21 @@ public class HomeController {
     @CrossOrigin
     @PostMapping(path = "/submit")
     public ModelAndView submit(
-            @RequestParam("identification") MultipartFile identification,
-            @RequestParam("proofOfSchemeInvolvement") MultipartFile proofOfSchemeInvolvement,
-            Member member,
+            Claim claim,
             ModelMap model) {
+        Member existingMember = null;
+
         try {
-            memberService.update(member);
+            memberService.update(claim);
 
-            if (member.hasCompletedMembershipForm()) {
-                mailSenderService.sendFollowUpEmail(member);
-                return new ModelAndView("thankYou", model);
-            }
+            existingMember = memberService.findMemberByClaimToken(claim.getClaimToken());
 
-            return new ModelAndView("redirect:/", model);
+            mailSenderService.sendFollowUpEmail(existingMember);
+            return new ModelAndView("thankYou", model);
         } catch (Exception e) {
-            LOGGER.error("Unable to receive files and update member {}", member, e);
+            LOGGER.error("Unable to receive files and update member {}", existingMember, e);
             return new ModelAndView("error", model);
         }
-    }
-
-    private String sanitise(String toSanitise) {
-        return toSanitise.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
     }
 
 }

@@ -22,6 +22,7 @@ public class Member {
     private Boolean hmrcLetterChecked;
     private Boolean identificationChecked;
     private Boolean documentUploadError;
+    private String claimToken;
 
     public Member() {
     }
@@ -45,7 +46,8 @@ public class Member {
             String bigGroupUsername,
             Boolean hmrcLetterChecked,
             Boolean identificationChecked,
-            Boolean documentUploadError) {
+            Boolean documentUploadError,
+            String claimToken) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -65,6 +67,7 @@ public class Member {
         this.hmrcLetterChecked = hmrcLetterChecked;
         this.identificationChecked = identificationChecked;
         this.documentUploadError = documentUploadError;
+        this.claimToken = claimToken;
     }
 
     public String getEmailAddress() {
@@ -222,5 +225,13 @@ public class Member {
 
     public void setDocumentUploadError(Boolean documentUploadError) {
         this.documentUploadError = documentUploadError;
+    }
+
+    public String getClaimToken() {
+        return claimToken;
+    }
+
+    public void setClaimToken(String claimToken) {
+        this.claimToken = claimToken;
     }
 }

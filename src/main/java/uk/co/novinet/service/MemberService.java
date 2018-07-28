@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static uk.co.novinet.service.PersistenceUtils.usersTableName;
+import static uk.co.novinet.service.PersistenceUtils.*;
 
 @Service
 public class MemberService {
@@ -20,62 +20,90 @@ public class MemberService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void update(Member member) {
-        Member existingMember = findMemberByToken(member.getToken());
+    public void update(Claim claim) {
+        Member existingMember = findMemberByClaimToken(claim.getClaimToken());
 
         if (existingMember == null) {
-            throw new RuntimeException("Member with token " + member.getToken() + " not found");
+            throw new RuntimeException("Member with claim token " + claim.getClaimToken() + " not found");
         }
 
-        LOGGER.info("Going to update member: {}", member);
+        Long nextAvailableId = findNextAvailableId("uid", usersTableName());
 
-        String sql = "update " + usersTableName() + " u " +
-                "set u.mp_name = ?, " +
-                "u.mp_engaged = ?, " +
-                "u.mp_sympathetic = ?, " +
-                "u.mp_constituency = ?, " +
-                "u.mp_party = ?, " +
-                "u.schemes = ?, " +
-                "u.industry = ?, " +
-                "u.name = ?, " +
-                "u.email = ?, " +
-                "u.has_completed_membership_form = ?, " +
-                "u.how_did_you_hear_about_lcag = ?, " +
-                "u.member_of_big_group = ?, " +
-                "u.big_group_username = ?, " +
-                "u.document_upload_error = ? " +
-                "where u.token = ?";
+        String claimSql = "insert into " + claimTableName() + " (" +
+                "`id`" +
+                "`user_id`" +
+                "`title`" +
+                "`first_name`" +
+                "`last_name`" +
+                "`email_address`" +
+                "`address_line_1`" +
+                "`address_line_2`" +
+                "`city`" +
+                "`postcode`" +
+                "`country`" +
+                "`phone_number`" +
+                "`can_supply_written_evidence`" +
+                "`scheme_details`" +
+                "`names_and_contact_details_of_scheme_advisors`" +
+                "`any_other_information`" +
+                ")" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) where u.claim_token = ?";
 
-        LOGGER.info("Created sql: {}", sql);
+        LOGGER.info("Going to execute insert claim sql: {}", claimSql);
+
+        int claimInsertionResult = jdbcTemplate.update(claimSql,
+                nextAvailableId,
+                existingMember.getId(),
+                claim.getTitle(),
+                claim.getFirstName(),
+                claim.getLastName(),
+                claim.getEmailAddress(),
+                claim.getAddressLine1(),
+                claim.getAddressLine2(),
+                claim.getCity(),
+                claim.getPostcode(),
+                claim.getCountry(),
+                claim.getPhoneNumber(),
+                claim.getCanShowWrittenEvidence(),
+                claim.getSchemeDetails(),
+                claim.getSchemeAdvisorDetails(),
+                claim.getAdditionalInformation(),
+                claim.getClaimToken()
+        );
+
+        LOGGER.info("Claim insertion result: {}", claimInsertionResult);
+
+        if (claimInsertionResult != 1) {
+            throw new RuntimeException("Unable to insert claim: " + claim);
+        }
+
+        LOGGER.info("Going to update member: {}", existingMember);
+
+        String memberSql = "update " + usersTableName() + " u " +
+                "set u.has_completed_claim_participant_form = ? " +
+                "where u.claim_token = ?";
+
+        LOGGER.info("Created memberSql: {}", memberSql);
 
         int result = jdbcTemplate.update(
-                sql,
-                member.getMpName(),
-                member.getMpEngaged(),
-                member.getMpSympathetic(),
-                member.getMpConstituency(),
-                member.getMpParty(),
-                member.getSchemes(),
-                member.getIndustry(),
-                member.getName(),
-                member.getEmailAddress(),
-                member.hasCompletedMembershipForm(),
-                member.getHowDidYouHearAboutLcag(),
-                member.getMemberOfBigGroup() == null ? "" : member.getMemberOfBigGroup(),
-                member.getBigGroupUsername(),
-                member.getDocumentUploadError(),
-                member.getToken()
+                memberSql,
+                true,
+                existingMember.getClaimToken()
         );
 
         LOGGER.info("Update result: {}", result);
+
+        if (result != 1) {
+            throw new RuntimeException("Unable to update member: " + existingMember);
+        }
     }
 
-    public Member findMemberByToken(String token) {
+    public Member findMemberByClaimToken(String token) {
         if (StringUtils.isBlank(token)) {
             return null;
         }
 
-        List<Member> members = jdbcTemplate.query("select * from " + usersTableName() + " u where lower(u.token) = ?", new Object[] { token.toLowerCase() }, (rs, rowNum) -> buildMember(rs));
+        List<Member> members = jdbcTemplate.query("select * from " + usersTableName() + " u where lower(u.claim_token) = ?", new Object[] { token.toLowerCase() }, (rs, rowNum) -> buildMember(rs));
 
         if (members == null || members.size() == 0) {
             return null;
@@ -109,7 +137,8 @@ public class MemberService {
                 rs.getString("big_group_username"),
                 rs.getBoolean("hmrc_letter_checked"),
                 rs.getBoolean("identification_checked"),
-                rs.getBoolean("document_upload_error")
+                rs.getBoolean("document_upload_error"),
+                rs.getString("claim_token")
         );
     }
 

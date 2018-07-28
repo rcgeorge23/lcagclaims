@@ -61,9 +61,9 @@ public class MailSenderService {
         email.setTextHTML(replaceTokens(retrieveEmailBodyHtmlFromGoogleDocs(), member));
         email.setSubject(emailSubject);
 
-        LOGGER.info("Going to try sending email to new memeber {}", member.getEmailAddress());
+        LOGGER.info("Going to try sending email to new claim participant {}", member.getEmailAddress());
         new Mailer(smtpHost, smtpPort, smtpUsername, smtpPassword, TransportStrategy.SMTP_TLS).sendMail(email);
-        LOGGER.info("Email successfully sent to new member {}", member.getEmailAddress());
+        LOGGER.info("Email successfully sent to new claim participant {}", member.getEmailAddress());
     }
 
     private String replaceTokens(String emailTemplate, Member member) {

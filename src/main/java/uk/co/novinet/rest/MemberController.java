@@ -19,7 +19,7 @@ public class MemberController {
 
     @GetMapping("/member")
     public Member getMemberByToken(@RequestParam("token") String token) {
-        return memberService.findMemberByToken(token);
+        return memberService.findMemberByClaimToken(token);
     }
 
 }

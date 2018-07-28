@@ -41,13 +41,36 @@
                             <p>If you have any questions please contact <a href="mailto:claim@hmrcloancharge.info">claim@hmrcloancharge.info</a></p>
                             <p>Many thanks,<br/>LCAG Claim Team</p>
                         </div>
-                        <div class="panel-footer clearfix">
-                            <p><strong>GDP Disclaimer</strong>: The information that you provide will be shared with Dow Schofield Watts (DSW) tax consultants and Smooth Commercial Law who are organising the lawsuit.</p>
+                    </div>
+
+                    <div id="inner-message" class="alert alert-info">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-2">
+                                <i class="fa fa-info-circle fa-2x"></i>
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                <strong>GDP Disclaimer</strong>: The information that you provide will be shared with Dow Schofield Watts (DSW) tax consultants and Smooth Commercial Law who are organising the lawsuit.</p>
+                            </div>
                         </div>
                     </div>
 
+                    <br/>
+
+                    <div id="inner-message" class="alert alert-warning">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-2">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                            </div>
+                            <div class="col-md-11 col-sm-10">
+                                Do not share this link with anyone else as it will jeopardise your participation in the legal proceedings.
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+
                     <form id="inputFieldForm" action="/submit" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="token" value="" id="token" />
+                        <input type="hidden" name="claimToken" value="" id="claimToken" />
                         <div class="panel panel-default">
 
                             <div class="panel-heading">Claim Participant Form<div class="pull-right"><i class="fa fa-lock" aria-hidden="true"></i></div></div>
@@ -111,6 +134,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
+                                        <input type="text" name="country" class="form-control" id="country" placeholder="Please enter your country" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="phoneNumber">Phone Number</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
@@ -120,8 +150,8 @@
                                 <div class="form-group">
                                     <label>Can you supply any written evidence (emails, letters) to show this advice?</label>
                                     <div>
-                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceYes" value="true" required> Yes </label>
-                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceNo" value="false" required> No </label>
+                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceYes" value="yes" required> Yes </label>
+                                        <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceNo" value="no" required> No </label>
                                         <label class="radio-inline"> <input type="radio" name="canShowWrittenEvidence" id="canShowWrittenEvidenceUnsure" value="unsure" required> Unsure </label>
                                     </div>
                                 </div>
@@ -129,24 +159,21 @@
                                     <label for="schemeDetails">Please highlight which schemes you were part of and in what financial years</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <textarea name="schemeDetails" class="form-control" id="schemeDetails" placeholder="Please enter details of the schemes that you used" required>
-                                        </textarea>
+                                        <textarea name="schemeDetails" class="form-control" id="schemeDetails" placeholder="Please enter details of the schemes that you used" required></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="schemeAndAdvisorDetails">Names and (if possible) contact details of the people or organisations who advised you use the loan scheme(s)</label>
+                                    <label for="schemeAdvisorDetails">Names and (if possible) contact details of the people or organisations who advised you use the loan scheme(s)</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <textarea type="text" name="schemeAndAdvisorDetails" class="form-control" id="schemeAndAdvisorDetails" placeholder="Please enter names and contact details of people or organisations who advised you use the loan scheme(s)" required>
-                                        </textarea>
+                                        <textarea type="text" name="schemeAdvisorDetails" class="form-control" id="schemeAdvisorDetails" placeholder="Please enter names and contact details of people or organisations who advised you use the loan scheme(s)" required></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="additionalInformation">Any additional information you wish to provide</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <textarea name="additionalInformation" class="form-control" id="additionalInformation" placeholder="Any additional information">
-                                        </textarea>
+                                        <textarea name="additionalInformation" class="form-control" id="additionalInformation" placeholder="Please provide any additional information"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -194,34 +221,16 @@
 
                             console.log("member", response.responseJSON);
 
-                            $('#name').val(member.name);
                             $('#salutation').text(member.name);
                             $('#emailAddress').val(member.emailAddress);
-                            $('#mpName').val(member.mpName);
-                            $('#mpConstituency').val(member.mpConstituency);
-                            $('#mpParty').val(member.mpParty);
-                            $('#mpEngagedYes').prop("checked", member.mpEngaged);
                             $('#mpSympatheticYes').prop("checked", member.mpSympathetic);
-                            $('#schemes').val(member.schemes);
-                            $('#industry').val(member.industry);
-                            $('#howDidYouHearAboutLcag').val(member.howDidYouHearAboutLcag);
+                            $('#schemeDetails').val(member.schemes);
 
-                            if (member.memberOfBigGroup) {
-                                $("#memberOfBigGroupYes").prop("checked", member.memberOfBigGroup);
-                                showBigGroupUsernameSection();
-                            }
-
-                            if (member.documentUploadError) {
-                                $("#documentUploadErrorBanner").show();
-                                showDocumentUploadSection();
-                            }
-
-                            $('#bigGroupUsername').val(member.bigGroupUsername);
                         }
                     }
                 });
 
-                $('#token').val(getParameterByName('token'));
+                $('#claimToken').val(getParameterByName('token'));
 
                 $("#inputFieldForm").validate({
                     errorElement: "em",
@@ -273,26 +282,6 @@
                     }
                 });
             });
-
-            function showBigGroupUsernameSection() {
-                $("#bigGroupUsernameSection").show();
-                $("#bigGroupUsername").prop('required', true);
-                $("#identification").prop('required', false);
-                $("#proofOfSchemeInvolvement").prop('required', false);
-                $("#idDocumentationSection").hide();
-            }
-
-            function showDocumentUploadSection() {
-                $("#memberOfBigGroupNo").prop('checked', true);
-                $("#bigGroupUsernameSection").hide();
-                $("#bigGroupUsername").prop('required', false);
-                console.log("member", member);
-                if (member.hmrcLetterChecked == false && member.identificationChecked == false) {
-                    $("#identification").prop('required', true);
-                    $("#proofOfSchemeInvolvement").prop('required', true);
-                    $("#idDocumentationSection").show();
-                }
-            }
         </script>
 
     </body>
