@@ -15,11 +15,11 @@ docker run -d \
 	-e "BCC_RECIPIENTS=test@bcc.com" \
 	-e "EMAIL_FROM_NAME=LCAG" \
 	-e "EMAIL_SUBJECT=LCAG Claim Participant Confirmation" \
-	-e "VIRTUAL_PORT=8383" \
-	-e "SERVER_PORT=8383" \
+	-e "VIRTUAL_PORT=8484" \
+	-e "SERVER_PORT=8484" \
 	--name fileuploader \
-    -p 8383:8383 \
+    -p 8484:8484 \
     -t dockernovinet/fileuploader
 
 echo "Waiting for application status url to respond with 200"
-while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8383)" != "200" ]]; do sleep 5; done
+while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8484)" != "200" ]]; do sleep 5; done

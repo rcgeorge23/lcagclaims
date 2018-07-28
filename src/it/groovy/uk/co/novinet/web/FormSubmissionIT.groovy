@@ -3,9 +3,6 @@ package uk.co.novinet.web
 import geb.spock.GebSpec
 import org.apache.commons.io.FileUtils
 import uk.co.novinet.e2e.SftpDocument
-import uk.co.novinet.e2e.TestSftpService
-import uk.co.novinet.e2e.TestUtils
-import uk.co.novinet.e2e.User
 
 import static uk.co.novinet.e2e.TestUtils.*
 
@@ -23,64 +20,55 @@ class FormSubmissionIT extends GebSpec {
     static final bigGroupUsername = "bigGroupUsername"
 
     def setup() {
-        new TestSftpService().removeAllDocsForEmailAddress("test@test.com")
         setupDatabaseSchema()
     }
 
-    def "membership form is pre-populated with member data"() {
+    def "claim participant form is pre-populated with member email address"() {
         given:
             prepopulateMemberDataInDb()
-            go "http://localhost:8383?token=1234_1"
+            go "http://localhost:8484?token=claim_1"
 
         when:
-            waitFor { at MembershipFormPage }
+            waitFor { at ClaimParticipantFormPage }
 
         then:
-            assert documentUploadErrorBanner.displayed == false
-            waitFor { nameInput.value() == 'Test Name1' }
-            waitFor { mpNameInput.value() == mpName }
-            waitFor { mpConstituencyInput.value() == mpConstituency }
-            waitFor { mpPartyInput.value() == mpParty }
-            waitFor { mpEngagedInput[0].value() == "true" }
-            waitFor { mpSympatheticInput[0].value() == "true" }
-            waitFor { schemesInput.value() == schemes }
-            waitFor { industryInput.value() == industry }
-            waitFor { howDidYouHearAboutLcagInput.value() == howDidYouHearAboutLcag }
-            waitFor { memberOfBigGroupInput[0].value() == "true" }
-            waitFor { bigGroupUsernameInput.value() == bigGroupUsername }
+            waitFor { emailAddressInput.value() == "user1@something.com" }
     }
 
-    def "membership form cannot be submitted when fields are blank"() {
+    def "claim participant form cannot be submitted when fields are blank"() {
         given:
-            go "http://localhost:8383?token=1234_1"
-            waitFor { at MembershipFormPage }
-            nameInput.value("")
+            go "http://localhost:8484?token=claim_1"
+            waitFor { at ClaimParticipantFormPage }
+            firstNameInput.value("")
+            lastNameInput.value("")
             emailAddressInput.value("")
-            assert documentUploadErrorBanner.displayed == false
 
         when:
             submitButton.click()
 
         then:
-            waitFor { at MembershipFormPage }
-            waitFor { nameInputError.displayed }
-            assert nameInputError.displayed
-            assert emailAddressError.displayed
-            assert mpNameError.displayed
-            assert mpPartyError.displayed
-            assert mpConstituencyError.displayed
-            assert mpEngagedError.displayed
-            assert mpSympatheticError.displayed
-            assert schemesError.displayed
-            assert industryError.displayed
-            assert howDidYouHearAboutLcagError.displayed
-            assert memberOfBigGroupError.displayed
+            waitFor { at ClaimParticipantFormPage }
+            waitFor { titleError.displayed }
+            assert titleError.displayed == true
+            assert firstNameError.displayed == true
+            assert lastNameError.displayed == true
+            assert emailAddressError.displayed == true
+            assert addressLine1Error.displayed == true
+            assert addressLine2Error.present == false
+            assert cityError.displayed == true
+            assert postcodeError.displayed == true
+            assert phoneNumberError.displayed == true
+            assert countryError.displayed == true
+            assert canShowWrittenEvidenceError.displayed == true
+            assert schemeDetailsError.displayed == true
+            assert schemeAdvisorDetailsError.displayed == true
+            assert additionalInformationError.present == false
     }
 
     def "big group username field is displayed when i say i am a member of big group"() {
         given:
-            go "http://localhost:8383?token=1234_1"
-            waitFor { at MembershipFormPage }
+            go "http://localhost:8484?token=1234_1"
+            waitFor { at ClaimParticipantFormPage }
             nameInput.value("")
             emailAddressInput.value("")
             assert bigGroupUsernameInput.displayed == false
@@ -102,7 +90,7 @@ class FormSubmissionIT extends GebSpec {
             submitButton.click()
 
         then: "all previous errors are displayed as well as the big group username validation error"
-            waitFor { at MembershipFormPage }
+            waitFor { at ClaimParticipantFormPage }
             waitFor { nameInputError.displayed }
             assert documentUploadErrorBanner.displayed == false
             assert nameInputError.displayed
@@ -121,8 +109,8 @@ class FormSubmissionIT extends GebSpec {
 
     def "id and scheme doc upload fields are displayed when i say i am not a member of big group"() {
         given:
-            go "http://localhost:8383?token=1234_1"
-            waitFor { at MembershipFormPage }
+            go "http://localhost:8484?token=1234_1"
+            waitFor { at ClaimParticipantFormPage }
             nameInput.value("")
             emailAddressInput.value("")
             assert bigGroupUsernameInput.displayed == false
@@ -145,7 +133,7 @@ class FormSubmissionIT extends GebSpec {
             submitButton.click()
 
         then: "all previous errors are displayed as well as the big group username validation error"
-            waitFor { at MembershipFormPage }
+            waitFor { at ClaimParticipantFormPage }
             waitFor { nameInputError.displayed }
             assert documentUploadErrorBanner.displayed == false
             assert nameInputError.displayed
@@ -165,8 +153,8 @@ class FormSubmissionIT extends GebSpec {
 
     def "can complete membership form as existing big group user"() {
         given:
-            go "http://localhost:8383?token=1234_1"
-            waitFor { at MembershipFormPage }
+            go "http://localhost:8484?token=1234_1"
+            waitFor { at ClaimParticipantFormPage }
             assert documentUploadErrorBanner.displayed == false
 
         when:
@@ -203,11 +191,10 @@ class FormSubmissionIT extends GebSpec {
 
     def "can complete membership form with id and proof of scheme docs"() {
         given:
-            go "http://localhost:8383?token=1234_1"
-            waitFor { at MembershipFormPage }
+            go "http://localhost:8484?token=1234_1"
+            waitFor { at ClaimParticipantFormPage }
             File idendificationFile = createFileWithSize(100)
             File proofOfSchemeInvolvementFile = createFileWithSize(100)
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").size() == 0
             assert documentUploadErrorBanner.displayed == false
 
         when:
@@ -241,17 +228,13 @@ class FormSubmissionIT extends GebSpec {
             assert member.howDidYouHearAboutLcag == "from contractor uk forum"
             assert member.memberOfBigGroup == false
             assert member.bigGroupUsername == ""
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").size() == 2
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(0).getSize() > 0L
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(1).getSize() > 0L
     }
 
     def "trying to submit zero byte docs results in validation error"() {
         given:
-            go "http://localhost:8383?token=1234_1"
-            waitFor { at MembershipFormPage }
+            go "http://localhost:8484?token=1234_1"
+            waitFor { at ClaimParticipantFormPage }
             File zeroByteFile = createFileWithSize(0)
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").size() == 0
             assert documentUploadErrorBanner.displayed == false
 
         when:
@@ -271,7 +254,7 @@ class FormSubmissionIT extends GebSpec {
             submitButton.click()
 
         then:
-            waitFor { at MembershipFormPage }
+            waitFor { at ClaimParticipantFormPage }
             def member = getUserRows().get(0)
             waitFor { documentUploadErrorBanner.displayed }
             assert documentUploadErrorBanner.displayed
@@ -287,9 +270,6 @@ class FormSubmissionIT extends GebSpec {
             assert member.howDidYouHearAboutLcag == "from contractor uk forum"
             assert member.memberOfBigGroup == false
             assert member.bigGroupUsername == ""
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").size() == 2
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(0).getSize() == 0L
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(1).getSize() == 0L
 
             nameInput.value() == "john smith"
             emailAddressInput.value() == "test@test.com"
@@ -315,7 +295,6 @@ class FormSubmissionIT extends GebSpec {
             submitButton.click()
             waitFor { at ThankYouPage }
             member = getUserRows().get(0)
-            List<SftpDocument> sftpDocuments = new TestSftpService().getAllDocumentsForEmailAddress("test@test.com")
 
             sftpDocuments.sort(new Comparator<SftpDocument>() {
                 @Override
@@ -339,11 +318,6 @@ class FormSubmissionIT extends GebSpec {
             assert member.howDidYouHearAboutLcag == "from contractor uk forum"
             assert member.memberOfBigGroup == false
             assert member.bigGroupUsername == ""
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").size() == 4
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(0).getSize() == 0L
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(1).getSize() == 0L
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(2).getSize() > 0L
-            assert new TestSftpService().getAllDocumentsForEmailAddress("test@test.com").get(3).getSize() > 0L
     }
 
     private createFileWithSize(Long kb) {
