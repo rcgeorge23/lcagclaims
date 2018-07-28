@@ -34,7 +34,7 @@ public class HomeController {
             return "notFound";
         }
 
-        if (member.hasCompletedMembershipForm()) {
+        if (member.getHasCompletedClaimParticipantForm()) {
             return "thankYou";
         }
 

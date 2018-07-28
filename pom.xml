@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.co.novinet</groupId>
-    <artifactId>lcagclaims</artifactId>
+    <artifactId>lcag-claim</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

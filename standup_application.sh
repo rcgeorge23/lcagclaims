@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Standing up fileuploader application"
+echo "Standing up lcag-claim application"
 docker run -d \
     --network lcag-automation-network \
     -e "SPRING_PROFILES_ACTIVE=prod" \
@@ -17,9 +17,9 @@ docker run -d \
 	-e "EMAIL_SUBJECT=LCAG Claim Participant Confirmation" \
 	-e "VIRTUAL_PORT=8484" \
 	-e "SERVER_PORT=8484" \
-	--name fileuploader \
+	--name lcag-claim \
     -p 8484:8484 \
-    -t dockernovinet/fileuploader
+    -t dockernovinet/lcag-claim
 
 echo "Waiting for application status url to respond with 200"
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8484)" != "200" ]]; do sleep 5; done

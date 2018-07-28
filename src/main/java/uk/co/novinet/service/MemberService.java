@@ -137,7 +137,9 @@ public class MemberService {
                 rs.getBoolean("hmrc_letter_checked"),
                 rs.getBoolean("identification_checked"),
                 rs.getBoolean("document_upload_error"),
-                rs.getString("claim_token")
+                rs.getString("claim_token"),
+                rs.getBoolean("has_completed_claim_participant_form"),
+                rs.getBoolean("has_been_sent_claim_confirmation_email")
         );
     }
 

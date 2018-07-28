@@ -23,6 +23,8 @@ public class Member {
     private Boolean identificationChecked;
     private Boolean documentUploadError;
     private String claimToken;
+    private Boolean hasCompletedClaimParticipantForm;
+    private Boolean hasBeenSentClaimConfirmationEmail;
 
     public Member() {
     }
@@ -47,7 +49,9 @@ public class Member {
             Boolean hmrcLetterChecked,
             Boolean identificationChecked,
             Boolean documentUploadError,
-            String claimToken) {
+            String claimToken,
+            Boolean hasCompletedClaimParticipantForm,
+            Boolean hasBeenSentClaimConfirmationEmail) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -68,6 +72,8 @@ public class Member {
         this.identificationChecked = identificationChecked;
         this.documentUploadError = documentUploadError;
         this.claimToken = claimToken;
+        this.hasCompletedClaimParticipantForm = hasCompletedClaimParticipantForm;
+        this.hasBeenSentClaimConfirmationEmail = hasBeenSentClaimConfirmationEmail;
     }
 
     public String getEmailAddress() {
@@ -233,5 +239,13 @@ public class Member {
 
     public void setClaimToken(String claimToken) {
         this.claimToken = claimToken;
+    }
+
+    public Boolean getHasCompletedClaimParticipantForm() {
+        return hasCompletedClaimParticipantForm;
+    }
+
+    public Boolean getHasBeenSentClaimConfirmationEmail() {
+        return hasBeenSentClaimConfirmationEmail;
     }
 }
