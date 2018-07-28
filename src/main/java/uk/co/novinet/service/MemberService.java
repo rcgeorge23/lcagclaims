@@ -30,24 +30,24 @@ public class MemberService {
         Long nextAvailableId = findNextAvailableId("uid", usersTableName());
 
         String claimSql = "insert into " + claimTableName() + " (" +
-                "`id`" +
-                "`user_id`" +
-                "`title`" +
-                "`first_name`" +
-                "`last_name`" +
-                "`email_address`" +
-                "`address_line_1`" +
-                "`address_line_2`" +
-                "`city`" +
-                "`postcode`" +
-                "`country`" +
-                "`phone_number`" +
-                "`can_supply_written_evidence`" +
-                "`scheme_details`" +
-                "`names_and_contact_details_of_scheme_advisors`" +
+                "`id`, " +
+                "`user_id`, " +
+                "`title`, " +
+                "`first_name`, " +
+                "`last_name`, " +
+                "`email_address`, " +
+                "`address_line_1`, " +
+                "`address_line_2`, " +
+                "`city`, " +
+                "`postcode`, " +
+                "`country`, " +
+                "`phone_number`, " +
+                "`can_supply_written_evidence`, " +
+                "`scheme_details`, " +
+                "`names_and_contact_details_of_scheme_advisors`, " +
                 "`any_other_information`" +
-                ")" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) where u.claim_token = ?";
+                ") " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         LOGGER.info("Going to execute insert claim sql: {}", claimSql);
 
@@ -67,8 +67,7 @@ public class MemberService {
                 claim.getCanShowWrittenEvidence(),
                 claim.getSchemeDetails(),
                 claim.getSchemeAdvisorDetails(),
-                claim.getAdditionalInformation(),
-                claim.getClaimToken()
+                claim.getAdditionalInformation()
         );
 
         LOGGER.info("Claim insertion result: {}", claimInsertionResult);

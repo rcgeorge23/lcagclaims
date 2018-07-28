@@ -20,6 +20,9 @@ class ClaimParticipantFormPage extends Page {
         phoneNumberInput { $("#phoneNumber") }
         countryInput { $("#country") }
         canShowWrittenEvidenceInput { $("input[name=canShowWrittenEvidence]") }
+        canShowWrittenEvidenceYes { $("#canShowWrittenEvidenceYes") }
+        canShowWrittenEvidenceNo { $("#canShowWrittenEvidenceNo") }
+        canShowWrittenEvidenceUnsure { $("#canShowWrittenEvidenceUnsure") }
         schemeDetailsInput { $("#schemeDetails") }
         schemeAdvisorDetailsInput { $("#schemeAdvisorDetails") }
         additionalInformationInput { $("#additionalInformation") }

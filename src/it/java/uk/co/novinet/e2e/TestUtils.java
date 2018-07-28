@@ -14,6 +14,7 @@ import org.codemonkey.simplejavamail.Mailer;
 import org.codemonkey.simplejavamail.TransportStrategy;
 import org.codemonkey.simplejavamail.email.Email;
 import org.jsoup.Jsoup;
+import uk.co.novinet.service.Claim;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
@@ -55,6 +56,7 @@ public class TestUtils {
 
         while (needToRetry && sqlRetryCounter < 60) {
             try {
+                runSqlScript("sql/drop_claim_table.sql");
                 runSqlScript("sql/drop_user_table.sql");
                 runSqlScript("sql/create_user_table.sql");
                 runSqlScript("sql/create_claim_table.sql");
@@ -145,6 +147,51 @@ public class TestUtils {
             }
 
             return users;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (statement != null) connection.close();
+            } catch (SQLException ignored) { }
+            try {
+                if (connection != null) connection.close();
+            } catch (SQLException ignored) { }
+        }
+    }
+
+    static List<Claim> getClaimRows() {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from i7b0_claim_participants c inner join i7b0_users u on u.uid = c.user_id");
+            List<Claim> claims = new ArrayList<>();
+
+            while (resultSet.next()) {
+                claims.add(new Claim(
+                        resultSet.getLong("c.id"),
+                        resultSet.getLong("c.user_id"),
+                        resultSet.getString("u.claim_token"),
+                        resultSet.getString("c.title"),
+                        resultSet.getString("c.first_name"),
+                        resultSet.getString("c.last_name"),
+                        resultSet.getString("c.email_address"),
+                        resultSet.getString("c.address_line_1"),
+                        resultSet.getString("c.address_line_2"),
+                        resultSet.getString("c.city"),
+                        resultSet.getString("c.postcode"),
+                        resultSet.getString("c.country"),
+                        resultSet.getString("c.phone_number"),
+                        resultSet.getString("c.can_supply_written_evidence"),
+                        resultSet.getString("c.scheme_details"),
+                        resultSet.getString("c.names_and_contact_details_of_scheme_advisors"),
+                        resultSet.getString("c.any_other_information"))
+                );
+            }
+
+            return claims;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
