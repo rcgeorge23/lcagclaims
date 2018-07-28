@@ -142,7 +142,10 @@ public class TestUtils {
                         resultSet.getString("industry"),
                         resultSet.getString("how_did_you_hear_about_lcag"),
                         resultSet.getBoolean("member_of_big_group"),
-                        resultSet.getString("big_group_username"))
+                        resultSet.getString("big_group_username"),
+                        resultSet.getBoolean("has_completed_claim_participant_form"),
+                        resultSet.getBoolean("has_been_sent_claim_confirmation_email")
+                    )
                 );
             }
 

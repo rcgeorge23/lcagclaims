@@ -54,6 +54,9 @@ public class HomeController {
             existingMember = memberService.findMemberByClaimToken(claim.getClaimToken());
 
             mailSenderService.sendFollowUpEmail(existingMember);
+
+            memberService.markHasBeenSentClaimConfirmationEmail(existingMember);
+
             return new ModelAndView("thankYou", model);
         } catch (Exception e) {
             LOGGER.error("Unable to receive files and update member {}", existingMember, e);

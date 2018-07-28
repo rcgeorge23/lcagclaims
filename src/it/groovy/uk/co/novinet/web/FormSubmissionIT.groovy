@@ -8,16 +8,7 @@ import static uk.co.novinet.e2e.TestUtils.*
 
 class FormSubmissionIT extends GebSpec {
 
-    static final mpName = "mpName"
-    static final mpConstituency = "mpConstituency"
-    static final mpParty = "mpParty"
-    static final mpEngaged = 1
-    static final mpSympathetic = 1
     static final schemes = "schemes"
-    static final industry = "industry"
-    static final howDidYouHearAboutLcag = "howDidYouHearAboutLcag"
-    static final memberOfBigGroup = 1
-    static final bigGroupUsername = "bigGroupUsername"
 
     def setup() {
         setupDatabaseSchema()
@@ -90,22 +81,28 @@ class FormSubmissionIT extends GebSpec {
 
         then:
         waitFor { at ThankYouPage }
-        def member = getUserRows().get(0)
-        def claim = getClaimRows().get(0)
-        assert claim.title == "title"
-        assert claim.firstName == "firstName"
-        assert claim.lastName == "lastName"
-        assert claim.emailAddress == "email@address.com"
-        assert claim.addressLine1 == "addressLine1"
-        assert claim.addressLine2 == "addressLine2"
-        assert claim.city == "city"
-        assert claim.postcode == "postcode"
-        assert claim.country == "country"
-        assert claim.phoneNumber == "phoneNumber"
-        assert claim.canShowWrittenEvidence == "yes"
-        assert claim.schemeDetails == "schemeDetails"
-        assert claim.schemeAdvisorDetails == "schemeAdvisorDetails"
-        assert claim.additionalInformation == "additionalInformation"
+        assert getClaimRows().get(0).title == "title"
+        assert getClaimRows().get(0).firstName == "firstName"
+        assert getClaimRows().get(0).lastName == "lastName"
+        assert getClaimRows().get(0).emailAddress == "email@address.com"
+        assert getClaimRows().get(0).addressLine1 == "addressLine1"
+        assert getClaimRows().get(0).addressLine2 == "addressLine2"
+        assert getClaimRows().get(0).city == "city"
+        assert getClaimRows().get(0).postcode == "postcode"
+        assert getClaimRows().get(0).country == "country"
+        assert getClaimRows().get(0).phoneNumber == "phoneNumber"
+        assert getClaimRows().get(0).canShowWrittenEvidence == "yes"
+        assert getClaimRows().get(0).schemeDetails == "schemeDetails"
+        assert getClaimRows().get(0).schemeAdvisorDetails == "schemeAdvisorDetails"
+        assert getClaimRows().get(0).additionalInformation == "additionalInformation"
+        assert getUserRows().get(0).hasCompletedClaimParticipantForm == true
+        assert getUserRows().get(0).hasBeenSentClaimConfirmationEmail == true
     }
 
+    private prepopulateMemberDataInDb() {
+        runSqlUpdate("update `i7b0_users` set " +
+                "schemes = '" + schemes + "' " +
+                "where uid = 1"
+        )
+    }
 }

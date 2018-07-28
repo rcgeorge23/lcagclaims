@@ -17,8 +17,26 @@ public class User {
     private String howDidYouHearAboutLcag;
     private Boolean memberOfBigGroup;
     private String bigGroupUsername;
+    private Boolean hasCompletedClaimParticipantForm;
+    private Boolean hasBeenSentClaimConfirmationEmail;
 
-    public User(int id, String username, String emailAddress, String name, String mpName, String mpParty, String mpConstituency, Boolean mpEngaged, Boolean mpSympathetic, String schemes, String industry, String howDidYouHearAboutLcag, Boolean memberOfBigGroup, String bigGroupUsername) {
+    public User(
+            int id,
+            String username,
+            String emailAddress,
+            String name,
+            String mpName,
+            String mpParty,
+            String mpConstituency,
+            Boolean mpEngaged,
+            Boolean mpSympathetic,
+            String schemes,
+            String industry,
+            String howDidYouHearAboutLcag,
+            Boolean memberOfBigGroup,
+            String bigGroupUsername,
+            Boolean hasCompletedClaimParticipantForm,
+            Boolean hasBeenSentClaimConfirmationEmail) {
         this.id = id;
         this.username = username;
         this.emailAddress = emailAddress;
@@ -33,6 +51,8 @@ public class User {
         this.howDidYouHearAboutLcag = howDidYouHearAboutLcag;
         this.memberOfBigGroup = memberOfBigGroup;
         this.bigGroupUsername = bigGroupUsername;
+        this.hasCompletedClaimParticipantForm = hasCompletedClaimParticipantForm;
+        this.hasBeenSentClaimConfirmationEmail = hasBeenSentClaimConfirmationEmail;
     }
 
     public int getId() {
@@ -95,5 +115,21 @@ public class User {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    public Boolean getHasCompletedClaimParticipantForm() {
+        return hasCompletedClaimParticipantForm;
+    }
+
+    public void setHasCompletedClaimParticipantForm(Boolean hasCompletedClaimParticipantForm) {
+        this.hasCompletedClaimParticipantForm = hasCompletedClaimParticipantForm;
+    }
+
+    public Boolean getHasBeenSentClaimConfirmationEmail() {
+        return hasBeenSentClaimConfirmationEmail;
+    }
+
+    public void setHasBeenSentClaimConfirmationEmail(Boolean hasBeenSentClaimConfirmationEmail) {
+        this.hasBeenSentClaimConfirmationEmail = hasBeenSentClaimConfirmationEmail;
     }
 }

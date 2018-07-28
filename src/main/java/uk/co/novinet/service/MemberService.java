@@ -141,4 +141,23 @@ public class MemberService {
         );
     }
 
+    public void markHasBeenSentClaimConfirmationEmail(Member existingMember) {
+        String memberSql = "update " + usersTableName() + " u " +
+                "set u.has_been_sent_claim_confirmation_email = ? " +
+                "where u.uid = ?";
+
+        LOGGER.info("Created memberSql: {}", memberSql);
+
+        int result = jdbcTemplate.update(
+                memberSql,
+                true,
+                existingMember.getId()
+        );
+
+        LOGGER.info("Update result: {}", result);
+
+        if (result != 1) {
+            throw new RuntimeException("Unable to update member: " + existingMember);
+        }
+    }
 }
