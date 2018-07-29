@@ -34,16 +34,17 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Mis-selling Claim Participant Form for <strong><span id="salutation">LCAG Member</span></strong>
+                        </div>
                         <div class="panel-body">
-                            <p>Dear <span id="salutation">LCAG Member</span>,</p>
-                            <p>Welcome to the Loan Charge Action Group claim participant form. In order to include you in the forthcoming mis-selling lawsuit
-                                we need to collect some further information.</p>
+                            <p>In order to include you in the forthcoming mis-selling lawsuit we need to collect some further information.</p>
                             <p>If you have any questions please contact <a href="mailto:claim@hmrcloancharge.info">claim@hmrcloancharge.info</a></p>
                             <p>Many thanks,<br/>LCAG Claim Team</p>
                         </div>
                     </div>
 
-                    <div id="inner-message" class="alert alert-info">
+                    <div class="alert alert-info">
                         <div class="row">
                             <div class="col-md-1 col-sm-2">
                                 <i class="fa fa-info-circle fa-2x"></i>
@@ -54,9 +55,7 @@
                         </div>
                     </div>
 
-                    <br/>
-
-                    <div id="inner-message" class="alert alert-warning">
+                    <div class="alert alert-warning">
                         <div class="row">
                             <div class="col-md-1 col-sm-2">
                                 <i class="fa fa-exclamation-triangle fa-2x"></i>
@@ -66,8 +65,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <br/>
 
                     <form id="inputFieldForm" action="/submit" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="claimToken" value="" id="claimToken" />
@@ -156,10 +153,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="schemeDetails">Please specify which schemes you were part of in which financial years, please be as accurate as possible</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
-                                        <textarea name="schemeDetails" class="form-control" id="schemeDetails" placeholder="Please enter details of the schemes that you used" required></textarea>
+                                    <label for="schemeDetails">
+                                        Please specify which schemes you were part of in which financial years, please be as accurate as possible
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-align-justify" aria-hidden="true"></i></div>
+                                                <textarea name="schemeDetails" class="form-control" id="schemeDetails" rows="5" placeholder="Please enter details of the schemes that you used" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="alert alert-info field-info-panel">
+                                                <i class="fa fa-info-circle fa-2x pull-right"></i>
+                                                e.g.<br/>
+                                                2008/09: Penfolds<br/>
+                                                2009/10: Hamilton Trust<br/>
+                                                ...
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">

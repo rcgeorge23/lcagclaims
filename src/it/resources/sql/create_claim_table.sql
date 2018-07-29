@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `i7b0_claim_participants` (
   `scheme_details` text NOT NULL,
   `names_and_contact_details_of_scheme_advisors` text NOT NULL,
   `any_other_information` text,
+  `has_been_submitted_to_dsw` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   FOREIGN KEY (user_id) REFERENCES i7b0_users(uid)
 ) ENGINE=MyISAM AUTO_INCREMENT=194 DEFAULT CHARSET=utf8;
