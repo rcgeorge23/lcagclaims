@@ -27,7 +27,7 @@ public class MemberService {
             throw new RuntimeException("Member with claim token " + claim.getClaimToken() + " not found");
         }
 
-        Long nextAvailableId = findNextAvailableId("uid", usersTableName());
+        Long nextAvailableId = findNextAvailableId("id", claimTableName());
 
         String claimSql = "insert into " + claimTableName() + " (" +
                 "`id`, " +
